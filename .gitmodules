@@ -1,0 +1,18 @@
+[submodule "conFusionServer"]
+	path = conFusionServer
+	url = /conFusionServer
+[submodule "node-examples"]
+	path = node-examples
+	url = /node-examples
+[submodule "node-express"]
+	path = node-express
+	url = /node-express
+[submodule "node-http"]
+	path = node-http
+	url = /node-http
+[submodule "node-mongo"]
+	path = node-mongo
+	url = /node-mongo
+[submodule "node-mongoose"]
+	path = node-mongoose
+	url = /node-mongoose
