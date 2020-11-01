@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const Leaders = require('../models/leaders');
 
 const leaderRouter = express.Router();
+const cors = require('./cors')
 
 leaderRouter.use( bodyParser.json());
 
@@ -12,7 +13,8 @@ let auth = require('../authenticate');
 
 
 leaderRouter.route('/')
-.get((req,res,next) =>{
+.options(cors.corsWithOptions,(req,res)=>{res.sendStatus(200)})
+.get(cors.cors,(req,res,next) =>{
     Leaders.find({})
     .then((leaders)=>{
         res.statusCode = 200;
@@ -24,7 +26,7 @@ leaderRouter.route('/')
     })
 
 })
-.post(auth.verifyUser,(req,res,next) =>{
+.post(cors.corsWithOptions,auth.verifyUser,(req,res,next) =>{
     Leaders.create(req.body)
     .then((leader)=>{
         res.statusCode = 200;
@@ -35,11 +37,11 @@ leaderRouter.route('/')
         next(err);
     })
 })
-.put(auth.verifyUser,(req,res,next) =>{
+.put(cors.corsWithOptions,auth.verifyUser,(req,res,next) =>{
     res.statusCode = 403;
     res.end('put is not supported on leadertions');
 })
-.delete(auth.verifyUser,(req,res,next) =>{
+.delete(cors.corsWithOptions,auth.verifyUser,(req,res,next) =>{
     Leaders.remove({})
     .then((leader)=>{
         res.statusCode = 200;
@@ -52,7 +54,8 @@ leaderRouter.route('/')
 });
 
 leaderRouter.route('/:leaderid')
-.get((req,res,next)=>{
+.options(cors.corsWithOptions,(req,res)=>{res.sendStatus(200)})
+.get(cors.cors,(req,res,next)=>{
     Leaders.findById(req.params.leaderid)
     .then((leaders)=>{
         res.statusCode = 200;
@@ -63,11 +66,11 @@ leaderRouter.route('/:leaderid')
         next(err);
     })
 })
-.post(auth.verifyUser,(req,res,next)=>{
+.post(cors.corsWithOptions,auth.verifyUser,(req,res,next)=>{
     res.statuscode = 403;
     res.end(" POST is not supported on leaderes/leaderid ");
 })
-.put(auth.verifyUser,(req,res,next)=>{
+.put(cors.corsWithOptions,auth.verifyUser,(req,res,next)=>{
     Leaders.findByIdAndUpdate(req.params.leaderid,{
         $set:req.body
     },{new:true})
@@ -80,7 +83,7 @@ leaderRouter.route('/:leaderid')
         next(err);
     })
 })
-.delete(auth.verifyUser,(req,res,next)=>{
+.delete(cors.corsWithOptions,auth.verifyUser,(req,res,next)=>{
     Leaders.findByIdAndDelete(req.params.leaderid)
     .then((leader)=>{
         res.statusCode = 200;

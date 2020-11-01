@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var passportLocalMongoose = require('passport-local-mongoose');
+const { facebook } = require('../config');
 
 var User = new Schema({
 
@@ -15,7 +16,8 @@ var User = new Schema({
     admin:{
         type:Boolean,
         default:false
-    }
+    },
+    facebookId:String
 });
 
 User.plugin(passportLocalMongoose);
